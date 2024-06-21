@@ -1,0 +1,50 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+h1 {
+    text-align: center;
+}
+hr {
+    margin: 0;
+}
+
+.main-panel {
+    margin: 0 auto;
+    border: 5px ridge #333;
+    width: 400px;
+}
+
+.title {
+    text-align: center;
+    width: 100%;
+    margin: 5px 0;
+    padding: 0;
+}
+#icon {
+    top: 1px;
+    width: 5%;
+    margin: 0 8px;
+    padding: 0;
+}
+#title-text {
+    font-size: 20px;
+}
+
+.panel {
+    width: 100%;
+}
+
+.status {
+    font-size: 20px;
+}
+
+.flag {
+    max-width: 50%;
+    margin: 50% 20%;
+}
+
+.limit {
+    max-width: 50%;
+    margin: 50% 10%;
+}
