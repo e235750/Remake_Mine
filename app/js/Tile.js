@@ -22,18 +22,6 @@ export class Tile extends Panel {
         this.IMG_HEIGHT = imgWidth;
     }
 
-    createTile(i, j) {
-        const tile = document.createElement("div");
-        tile.id = (this.FIELD_HEIGHT*i + j).toString();
-        const dflt = document.createElement("img");
-        dflt.src = "img/tile.jpeg";
-        dflt.alt = "default-tile"+　(this.FIELD_HEIGHT*i + j).toString();
-        dflt.style.width = `${this.IMG_WIDTH- 2.5}px`;
-        dflt.style.height = `${this.IMG_HEIGHT- 2.5}px`;
-        tile.appendChild(dflt);
-        return tile
-    }
-
     //指定した要素(パネル)の子要素を削除
     resetPanelLayout(panel) {
         while(panel.firstChild) {
@@ -41,30 +29,26 @@ export class Tile extends Panel {
         }
     }
 
-    setGridLayout(tiles) {
-        tiles.style.display = "grid";
-        tiles.style.gridTemplateColumns = `repeat(${this.FIELD_WIDTH}, 1fr)`;
-        tiles.style.gridTemplateRows = `repeat(${this.FIELD_HEIGHT}, 1fr)`;
+    setGridLayout(panel) {
+        panel.style = null;
+        panel.style.display = "grid";
+        panel.style.gridTemplateColumns = `repeat(${this.FIELD_WIDTH}, 1fr)`;
+        panel.style.gridTemplateRows = `repeat(${this.FIELD_HEIGHT}, 1fr)`;
     }
     
     createPanel() {
-        const tiles = document.createElement("div");
-        tiles.className = "tile";
+        this.resetPanelLayout(this.panel);
         for(let i = 0; i < this.FIELD_HEIGHT; i ++) {
             for(let j = 0; j < this.FIELD_WIDTH; j ++) {
-                const tile = this.createTile(i, j)
-                tile.addEventListener("click", () => {
-                    const img = tile.querySelector("img");
-                    img.src = "img/bomb.png";
-                    img.style.width = `${this.IMG_WIDTH- 2.5}px`;
-                    img.style.height = `${this.IMG_HEIGHT- 2.5}px`;
+                const tile = new CustomTile(this.IMG_HEIGHT, this.IMG_WIDTH);
+                tile.tile.id = (this.FIELD_HEIGHT*i + j).toString();
+                tile.tile.addEventListener("click", () => {
+                    tile.setBombIcon(tile.tile);
                 });
-                tiles.appendChild(tile);
+                this.panel.appendChild(tile.tile);
             }
         }
-        this.setGridLayout(tiles)
-        this.resetPanelLayout(this.panel);
-        this.panel.appendChild(tiles);
+        this.setGridLayout(this.panel)
     }
 
     
