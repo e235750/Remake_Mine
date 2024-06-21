@@ -5,7 +5,7 @@ class MinesweeperGame {
     }
     showGamePanel() {
         const tile = new Tile("ADVANCED")
-        tile.createTile();
+        tile.createPanel();
     }
 }
 
