@@ -70,14 +70,36 @@ export class Tile extends Panel {
             this.tiles.push(row);
         }
         this.placeBombs(this.tiles);
+        this.bombCountNearby(this.tiles);
         this.setGridLayout(this.panel)
+    }
+
+    bombCountNearby(tiles) {
+        for(let y = 0; y < this.FIELD_HEIGHT; y ++) {
+            for(let x = 0; x < this.FIELD_WIDTH; x ++) {
+                if(!tiles[y][x].isBomb()) {
+                    let count = 0;
+                    for(let i = y-1; i <= y+1; i ++) {
+                        for(let j = x-1; j <= x+1; j ++) {
+                            if(i == y && j == x) continue;
+                            if(i < 0 || i >= this.FIELD_HEIGHT || j < 0 || j >= this.FIELD_WIDTH) continue;
+                            if(tiles[i][j].isBomb()) count ++;
+                        }
+                    }
+                    tiles[y][x].setNearBombCount(count);
+                }
+            }
+        } 
     }
 
     handleLeftClick(tile) {
         if(!tile.isFlag()) {
+            tile.open();
             if(tile.isBomb()) {
-                tile.open();
                 tile.setBombIcon2(tile.tile); 
+            }
+            else {
+                tile.setNumberIcon1(tile.tile, tile.getNearBomb())
             }
         }
     }
@@ -99,7 +121,8 @@ export class Tile extends Panel {
             else tile.setFlagIcon2(tile.tile);
         }
         else {
-            if(tile.isBomb()) tile.setBombIcon2(tile.tile)
+            if(tile.isBomb()) tile.setBombIcon2(tile.tile);
+            else tile.setNumberIcon2(tile.tile, tile.getNearBomb());
         }
     }
     handleMouseLeave(tile) {
@@ -109,6 +132,7 @@ export class Tile extends Panel {
         }
         else {
             if(tile.isBomb()) tile.setBombIcon1(tile.tile);
+            else tile.setNumberIcon1(tile.tile, tile.getNearBomb());
         }
     }
 }

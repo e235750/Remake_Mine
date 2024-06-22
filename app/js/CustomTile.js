@@ -8,6 +8,24 @@ export class CustomTile {
         this.IMG_FLAG_SRC_2 = "img/flag/flag_tile2.png";
         this.IMG_TILE_SRC_1 = "img/tile/ground_1.png";
         this.IMG_TILE_SRC_2 = "img/tile/ground_2.png";
+        this.IMG_NUMBERS_SRC_1 = Object.freeze(["img/numbers/normal/zero.png"  ,
+                                                "img/numbers/normal/one.png"   ,
+                                                "img/numbers/normal/tow.png"   ,
+                                                "img/numbers/normal/three.png" ,
+                                                "img/numbers/normal/four.png"  ,
+                                                "img/numbers/normal/five.png"  ,
+                                                "img/numbers/normal/six.png"   ,
+                                                "img/numbers/normal/seven.png" ,
+                                                "img/numbers/normal/enght.png"]);
+        this.IMG_NUMBERS_SRC_2 = Object.freeze(["img/numbers/hover/zero.png"  ,
+                                                "img/numbers/hover/one.png"   ,
+                                                "img/numbers/hover/tow.png"   ,
+                                                "img/numbers/hover/three.png" ,
+                                                "img/numbers/hover/four.png"  ,
+                                                "img/numbers/hover/five.png"  ,
+                                                "img/numbers/hover/six.png"   ,
+                                                "img/numbers/hover/seven.png" ,
+                                                "img/numbers/hover/enght.png"]);
         this.tile = document.createElement("img");
         this.setGroundIcon1(this.tile);
         this.setDefaultUserPermissions(this.tile);
@@ -47,6 +65,12 @@ export class CustomTile {
     }
     setGroundIcon2(tile) {
         this._setIcon(tile, this.IMG_TILE_SRC_2);
+    }
+    setNumberIcon1(tile, nearBomb) {
+        this._setIcon(tile, this.IMG_NUMBERS_SRC_1[nearBomb]);
+    }
+    setNumberIcon2(tile, nearBomb) {
+        this._setIcon(tile, this.IMG_NUMBERS_SRC_2[nearBomb]);
     }
 
     setBomb() {
