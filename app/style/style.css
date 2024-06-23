@@ -21,14 +21,21 @@ hr {
     margin: 5px 0;
     padding: 0;
 }
-#icon {
+.bomb-icon {
     top: 1px;
     width: 5%;
-    margin: 0 8px;
+    margin: 0 5px;
     padding: 0;
 }
 #title-text {
     font-size: 20px;
+}
+#flag-icon {
+    position: relative;
+    top: 5px;
+    width: 5%;
+    margin: 0 10px;
+    padding: 0;
 }
 
 .panel {
@@ -40,11 +47,14 @@ hr {
 }
 
 .flag {
-    max-width: 50%;
-    margin: 50% 20%;
+    max-width: 35%;
+    margin: 0 15%;
 }
 
-.limit {
-    max-width: 50%;
-    margin: 50% 10%;
+.timer {
+    max-width: 35%;
+    margin: 0 10%;
+}
+.timer #ms {
+    font-size: 15px;
 }

@@ -1,6 +1,7 @@
 import {Panel} from "./Panel.js";
 import {difficulty} from "./Difficulty.js";
 import {CustomTile} from "./CustomTile.js";
+import {Footer} from "./Footer.js";
 
 
 export class Tile extends Panel {
@@ -11,9 +12,16 @@ export class Tile extends Panel {
         this.FIELD_HEIGHT = this.param[0];
         this.FIELD_WIDTH = this.param[1];
         this.NUM_BOMB = this.param[2];
+        this.flagCount = 0;
         this.tiles = [];
         this.PANEL_WIDTH = this.panel.getBoundingClientRect().width;
         this.setImageSize(this.PANEL_WIDTH);
+        this.footer = new Footer(this);
+        this.footer.timerStart();
+    }
+
+    getDefaultBomb() {
+        return this.NUM_BOMB;
     }
 
     setImageSize(PANEL_WIDTH) {
@@ -92,11 +100,34 @@ export class Tile extends Panel {
         } 
     }
 
+    showAllBomb(tiles) {
+        for(let i = 0; i < this.FIELD_HEIGHT; i ++) {
+            for(let j = 0; j < this.FIELD_WIDTH; j ++) {
+                const _tiles = tiles[i][j];
+                _tiles.tile.style.pointerEvents = "none";
+                if(_tiles.isFlag()) {
+                    _tiles.toggleFlag();
+                    this.flagCount = 0;
+                    _tiles.setGroundIcon1(_tiles.tile)
+                }
+                if(_tiles.isBomb()) {
+                    _tiles.open();
+                    _tiles.setBombIcon1(_tiles.tile);
+                }
+                else {
+                    _tiles.setNumberIcon1(_tiles.tile, _tiles.getNearBomb());
+                }
+            }
+        }
+    }
+
     handleLeftClick(tile) {
         if(!tile.isFlag()) {
             tile.open();
             if(tile.isBomb()) {
-                tile.setBombIcon2(tile.tile); 
+                this.showAllBomb(this.tiles);
+                tile.setBombIcon2(tile.tile);
+                this.footer.timerStop();
             }
             else {
                 tile.setNumberIcon1(tile.tile, tile.getNearBomb())
@@ -106,13 +137,18 @@ export class Tile extends Panel {
     handleRightClick(tile) {
         if(!tile.isOpened()) {
             if(!tile.isFlag()) {
-                tile.toggleFlag();
-                tile.setFlagIcon2(tile.tile);
+                if(this.flagCount < this.NUM_BOMB){
+                    tile.toggleFlag();
+                    this.flagCount ++;
+                    tile.setFlagIcon2(tile.tile);
+                }
             }
             else {
                 tile.toggleFlag();
+                this.flagCount --;
                 tile.setGroundIcon2(tile.tile);
             }
+            this.footer.setFlagCount(this.flagCount);
         }
     }
     handleMouseOver(tile) {
