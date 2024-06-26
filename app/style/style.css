@@ -1,4 +1,10 @@
+@font-face {
+    font-family: "misaki_gothic_2nd";
+    src: url("font/misaki_ttf_2021-05-05/misaki_mincho.ttf");
+}
+
 body {
+    font-family: "misaki_gothic_2nd";
     margin: 0;
     padding: 0;
 }
@@ -11,6 +17,7 @@ hr {
 
 .main-panel {
     margin: 0 auto;
+    padding: 0;
     border: 5px ridge #333;
     width: 400px;
 }
@@ -18,43 +25,54 @@ hr {
 .title {
     text-align: center;
     width: 100%;
-    margin: 5px 0;
+    margin: 0 0;
     padding: 0;
 }
 .bomb-icon {
-    top: 1px;
+    position: relative;
+    top: 3px;
     width: 5%;
     margin: 0 5px;
-    padding: 0;
 }
 #title-text {
-    font-size: 20px;
-}
-#flag-icon {
     position: relative;
-    top: 5px;
-    width: 5%;
-    margin: 0 10px;
-    padding: 0;
+    font-size: 25px;
+    top: 2px;
 }
+
 
 .panel {
     width: 100%;
 }
 
 .status {
+    position: relative;
     font-size: 20px;
+    height: 35px;
 }
 
 .flag {
-    max-width: 35%;
-    margin: 0 15%;
+    position: absolute;
+    font-size: 25px;
+    bottom: 3px;
+    left: 70px;
+}
+
+#flag-icon {
+    top: 5px;
+    width: 6%;
+    margin: 0 10px;
+    padding: 0;
 }
 
 .timer {
-    max-width: 35%;
-    margin: 0 10%;
+    position: absolute;
+    font-size: 30px;
+    top: 5px;
+    right: 70px;
 }
 .timer #ms {
-    font-size: 15px;
+    position: absolute;
+    font-size: 25px;
+    top: 4px;
 }

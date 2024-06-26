@@ -1,7 +1,6 @@
 export class CustomTile {
-    constructor(height, width) {
-        this.IMG_WIDTH = width;
-        this.IMG_HEIGHT = height;
+    constructor(panelWidth, fieldWidth) {
+        this.setImageSize(panelWidth, fieldWidth);
         this.IMG_BOMB_SRC_1 = "img/bomb/bomb_tile1.png";
         this.IMG_BOMB_SRC_2 = "img/bomb/bomb_tile2.png";
         this.IMG_FLAG_SRC_1 = "img/flag/flag_tile1.png";
@@ -33,6 +32,12 @@ export class CustomTile {
         this._isFlag = false;
         this._isOpened = false;
         this.nearBomb = 0;
+    }
+
+    setImageSize(panelWidth, fieldWidth) {
+        const imgWidth = panelWidth/fieldWidth;
+        this.IMG_WIDTH = imgWidth;
+        this.IMG_HEIGHT = imgWidth;
     }
 
     //画像のドラッグと選択の禁止

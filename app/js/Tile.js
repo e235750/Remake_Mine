@@ -7,34 +7,17 @@ import {Footer} from "./Footer.js";
 export class Tile extends Panel {
     constructor(diff) {
         super();
-        this.panel = document.querySelector(".panel");
         this.param = difficulty[diff];
         this.FIELD_HEIGHT = this.param[0];
         this.FIELD_WIDTH = this.param[1];
         this.NUM_BOMB = this.param[2];
         this.flagCount = 0;
         this.tiles = [];
-        this.PANEL_WIDTH = this.panel.getBoundingClientRect().width;
-        this.setImageSize(this.PANEL_WIDTH);
         this.footer = new Footer(this);
-        this.footer.timerStart();
     }
 
     getDefaultBomb() {
         return this.NUM_BOMB;
-    }
-
-    setImageSize(PANEL_WIDTH) {
-        const imgWidth = PANEL_WIDTH/this.FIELD_WIDTH;
-        this.IMG_WIDTH = imgWidth;
-        this.IMG_HEIGHT = imgWidth;
-    }
-
-    //指定した要素(パネル)の子要素を削除
-    resetPanelLayout(panel) {
-        while(panel.firstChild) {
-            panel.removeChild(panel.firstChild);
-        }
     }
 
     setGridLayout(panel) {
@@ -59,16 +42,16 @@ export class Tile extends Panel {
     }
     
     createPanel() {
-        this.resetPanelLayout(this.panel);
+        super.resetPanelLayout(this.panel);
         for(let i = 0; i < this.FIELD_HEIGHT; i ++) {
             const row = [];
             for(let j = 0; j < this.FIELD_WIDTH; j ++) {
-                const tile = new CustomTile(this.IMG_HEIGHT, this.IMG_WIDTH);
+                const tile = new CustomTile(this.PANEL_WIDTH, this.FIELD_WIDTH);
                 tile.tile.id = (this.FIELD_HEIGHT*i + j).toString();
                 tile.tile.addEventListener("click", () => {this.handleLeftClick(tile)});
                 tile.tile.addEventListener("contextmenu", (e) => {
                     e.preventDefault();
-                    this.handleRightClick(tile)  
+                    this.handleRightClick(tile);
                 });
                 tile.tile.addEventListener("mouseover", () => {this.handleMouseOver(tile)});
                 tile.tile.addEventListener("mouseleave", () => {this.handleMouseLeave(tile)});
@@ -76,6 +59,7 @@ export class Tile extends Panel {
                 row.push(tile);
             }
             this.tiles.push(row);
+            this.footer.timerStart();
         }
         this.placeBombs(this.tiles);
         this.bombCountNearby(this.tiles);
