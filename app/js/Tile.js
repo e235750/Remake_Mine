@@ -1,19 +1,20 @@
 import {Panel} from "./Panel.js";
 import {difficulty} from "./Difficulty.js";
 import {CustomTile} from "./CustomTile.js";
-import {Footer} from "./Footer.js";
+import {Status} from "./Status.js";
 
 
 export class Tile extends Panel {
-    constructor(diff) {
+    constructor(game, diff) {
         super();
-        this.param = difficulty[diff];
+        this.param = difficulty[diff][1];
         this.FIELD_HEIGHT = this.param[0];
         this.FIELD_WIDTH = this.param[1];
         this.NUM_BOMB = this.param[2];
         this.flagCount = 0;
         this.tiles = [];
-        this.footer = new Footer(this);
+        this.open = 0;
+        this.status = new Status(this);
     }
 
     getDefaultBomb() {
@@ -59,7 +60,7 @@ export class Tile extends Panel {
                 row.push(tile);
             }
             this.tiles.push(row);
-            this.footer.timerStart();
+            this.status.timerStart();
         }
         this.placeBombs(this.tiles);
         this.bombCountNearby(this.tiles);
@@ -111,9 +112,11 @@ export class Tile extends Panel {
             if(tile.isBomb()) {
                 this.showAllBomb(this.tiles);
                 tile.setBombIcon2(tile.tile);
-                this.footer.timerStop();
+                this.status.timerStop();
             }
             else {
+                this.open ++;
+                console.log(this.open);
                 tile.setNumberIcon1(tile.tile, tile.getNearBomb())
             }
         }
@@ -132,7 +135,7 @@ export class Tile extends Panel {
                 this.flagCount --;
                 tile.setGroundIcon2(tile.tile);
             }
-            this.footer.setFlagCount(this.flagCount);
+            this.status.setFlagCount(this.flagCount);
         }
     }
     handleMouseOver(tile) {
