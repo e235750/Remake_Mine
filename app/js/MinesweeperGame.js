@@ -1,16 +1,21 @@
 import {Tile} from "./Tile.js"
 import { Title } from "./Title.js";
+import { Score } from "./Score.js";
 export class MinesweeperGame {
     constructor() {
         this.showTitlePanel(this);
     }
-    showTitlePanel(me) {
+    showTitlePanel() {
         const title = new Title(this);
-        title.createTitle();
+        title.createPanel();
     }
-    showGamePanel(diff, me) {
-        const tile = new Tile(me, diff);
+    showGamePanel(diff) {
+        const tile = new Tile(this, diff);
         tile.createPanel();
+    }
+    showScorePanel(args) {
+        const score = new Score(this, args);
+        score.createPanel();
     }
 }
 const game = new MinesweeperGame();

@@ -3,11 +3,12 @@ import {difficulty} from "./Difficulty.js";
 import {CustomTile} from "./CustomTile.js";
 import {Status} from "./Status.js";
 
-
 export class Tile extends Panel {
     constructor(game, diff) {
         super();
+        this.game = game;
         this.param = difficulty[diff][1];
+        this.diff = diff;
         this.FIELD_HEIGHT = this.param[0];
         this.FIELD_WIDTH = this.param[1];
         this.NUM_BOMB = this.param[2];
@@ -107,20 +108,36 @@ export class Tile extends Panel {
     }
 
     handleLeftClick(tile) {
-        if(!tile.isFlag()) {
+        if(!tile.isFlag() && !tile.isOpened()) {
             tile.open();
             if(tile.isBomb()) {
                 this.showAllBomb(this.tiles);
                 tile.setBombIcon2(tile.tile);
                 this.status.timerStop();
+                this.handleGameResult(false);
             }
             else {
                 this.open ++;
+                if(this.open === (this.FIELD_HEIGHT * this.FIELD_HEIGHT) - this.NUM_BOMB) {
+                    this.status.timerStop();
+                    this.handleGameResult();
+                }
                 console.log(this.open);
                 tile.setNumberIcon1(tile.tile, tile.getNearBomb())
             }
         }
     }
+    handleGameResult(result) {
+        this.status.timerReset();
+        this.status.flagReset();
+        const args = [];
+        args.push(result);
+        args.push(this.diff);
+        args.push(this.param);
+        args.push(this.status.getNowTime());
+        this.game.showScorePanel(args);
+    }
+
     handleRightClick(tile) {
         if(!tile.isOpened()) {
             if(!tile.isFlag()) {

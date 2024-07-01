@@ -27,7 +27,6 @@ export class CustomTile {
                                                 "img/numbers/hover/enght.png"]);
         this.tile = document.createElement("img");
         this.setGroundIcon1(this.tile);
-        this.setDefaultUserPermissions(this.tile);
         this._isBomb = false;
         this._isFlag = false;
         this._isOpened = false;
@@ -38,14 +37,6 @@ export class CustomTile {
         const imgWidth = panelWidth/fieldWidth;
         this.IMG_WIDTH = imgWidth;
         this.IMG_HEIGHT = imgWidth;
-    }
-
-    //画像のドラッグと選択の禁止
-    setDefaultUserPermissions(tile) {
-        tile.ondragstart = () => {return false};
-        tile.style.userSelect = "none";
-        tile.style.mozUserSelect = "none"; //FireFox
-        tile.style.msUserSelect  = "none"; //IE, Edge
     }
 
     _setIcon(tile, src) {

@@ -20,6 +20,10 @@ hr {
     padding: 0;
     border: 5px ridge #333;
     width: 400px;
+    user-select: none;
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE, Edge */
+    background-color: aqua;
 }
 
 .title {
