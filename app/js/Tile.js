@@ -3,6 +3,41 @@ import {difficulty} from "./Difficulty.js";
 import {CustomTile} from "./CustomTile.js";
 import {Status} from "./Status.js";
 
+const msg = "スコアを見る";
+const css = Object.freeze({
+    "message":
+    `
+        position: absolute;
+        width: 200px;
+        height: 100px;
+        border: 5px ridge #333;
+        padding: 7px 3px;
+        margin: 0 10px;
+        background-color: white;
+        opacity: 0.9;
+        left: 20.5%;
+        bottom: 40%;
+    `,
+    "description":
+    `
+        position: absolute;
+        left: 17%;
+        bottom: 55%;
+        font-size: 22px;
+    `,
+    "next":
+    `
+        position: absolute;
+        border: 5px ridge #333;
+        padding: 7px 5px;
+        background-color: aqua;
+        left: 30%;
+        font-size: 20px;
+        bottom: 10%;
+        margin: 0 auto;
+    `,
+})
+
 export class Tile extends Panel {
     constructor(game, diff) {
         super();
@@ -16,6 +51,7 @@ export class Tile extends Panel {
         this.tiles = [];
         this.open = 0;
         this.status = new Status(this);
+        this.flag = false;
     }
 
     getDefaultBomb() {
@@ -24,6 +60,7 @@ export class Tile extends Panel {
 
     setGridLayout(panel) {
         panel.style = null;
+        panel.style.position = "relative";
         panel.style.display = "grid";
         panel.style.gridTemplateColumns = `repeat(${this.FIELD_WIDTH}, 1fr)`;
         panel.style.gridTemplateRows = `repeat(${this.FIELD_HEIGHT}, 1fr)`;
@@ -50,7 +87,9 @@ export class Tile extends Panel {
             for(let j = 0; j < this.FIELD_WIDTH; j ++) {
                 const tile = new CustomTile(this.PANEL_WIDTH, this.FIELD_WIDTH);
                 tile.tile.id = (this.FIELD_HEIGHT*i + j).toString();
-                tile.tile.addEventListener("click", () => {this.handleLeftClick(tile)});
+                tile.tile.addEventListener("click", () => {
+                    this.handleLeftClick(tile);
+                });
                 tile.tile.addEventListener("contextmenu", (e) => {
                     e.preventDefault();
                     this.handleRightClick(tile);
@@ -108,36 +147,56 @@ export class Tile extends Panel {
     }
 
     handleLeftClick(tile) {
-        if(!tile.isFlag() && !tile.isOpened()) {
+        if(!tile.isFlag() && !tile.isOpened() && !this.flag) {
             tile.open();
             if(tile.isBomb()) {
-                this.showAllBomb(this.tiles);
-                tile.setBombIcon2(tile.tile);
+                this.flag = true;
                 this.status.timerStop();
-                this.handleGameResult(false);
+                tile.explosion(tile.tile);
+                setTimeout(() => {
+                    this.showAllBomb(this.tiles);
+                    tile.setBombIcon1(tile.tile);
+                    this.gameExit(false);
+                }, 1100);
             }
             else {
                 this.open ++;
                 if(this.open === (this.FIELD_HEIGHT * this.FIELD_HEIGHT) - this.NUM_BOMB) {
                     this.status.timerStop();
-                    this.handleGameResult();
+                    this.gameExit(true);
                 }
                 console.log(this.open);
                 tile.setNumberIcon1(tile.tile, tile.getNearBomb())
             }
         }
     }
+    gameExit(result) {
+        const message = document.createElement("div");
+        message.style.cssText = css["message"];
+
+        const description = document.createElement("div");
+        description.textContent = msg;
+        description.style.cssText = css["description"];
+
+        const next = document.createElement("div");
+        next.textContent = "すすむ";
+        next.style.cssText = css["next"];
+        next.addEventListener("click", () => {this.handleGameResult(result)});
+
+        message.appendChild(description);
+        message.appendChild(next);
+        this.panel.appendChild(message);
+    }
     handleGameResult(result) {
-        this.status.timerReset();
-        this.status.flagReset();
         const args = [];
         args.push(result);
         args.push(this.diff);
         args.push(this.param);
         args.push(this.status.getNowTime());
+        this.status.timerReset();
+        this.status.flagReset();
         this.game.showScorePanel(args);
     }
-
     handleRightClick(tile) {
         if(!tile.isOpened()) {
             if(!tile.isFlag()) {
@@ -156,23 +215,27 @@ export class Tile extends Panel {
         }
     }
     handleMouseOver(tile) {
-        if(!tile.isOpened()) {
-            if(!tile.isFlag()) tile.setGroundIcon2(tile.tile);
-            else tile.setFlagIcon2(tile.tile);
-        }
-        else {
-            if(tile.isBomb()) tile.setBombIcon2(tile.tile);
-            else tile.setNumberIcon2(tile.tile, tile.getNearBomb());
+        if(!this.flag){
+            if(!tile.isOpened()) {
+                if(!tile.isFlag()) tile.setGroundIcon2(tile.tile);
+                else tile.setFlagIcon2(tile.tile);
+            }
+            else {
+                if(tile.isBomb()) tile.setBombIcon2(tile.tile);
+                else tile.setNumberIcon2(tile.tile, tile.getNearBomb());
+            }
         }
     }
     handleMouseLeave(tile) {
-        if(!tile.isOpened()) {
-            if(!tile.isFlag()) tile.setGroundIcon1(tile.tile);
-            else tile.setFlagIcon1(tile.tile);
-        }
-        else {
-            if(tile.isBomb()) tile.setBombIcon1(tile.tile);
-            else tile.setNumberIcon1(tile.tile, tile.getNearBomb());
+        if(!this.flag) {
+            if(!tile.isOpened()) {
+                if(!tile.isFlag()) tile.setGroundIcon1(tile.tile);
+                else tile.setFlagIcon1(tile.tile);
+            }
+            else {
+                if(tile.isBomb()) tile.setBombIcon1(tile.tile);
+                else tile.setNumberIcon1(tile.tile, tile.getNearBomb());
+            }
         }
     }
 }

@@ -25,6 +25,10 @@ export class CustomTile {
                                                 "img/numbers/hover/six.png"   ,
                                                 "img/numbers/hover/seven.png" ,
                                                 "img/numbers/hover/enght.png"]);
+        this.IMG_EXPLOSION_SRC =   Object.freeze(["img/bomb/bomb2_tile1.png", 
+                                                  "img/bomb/bomb_tile1.png", 
+                                                  "img/bomb/explosion1_tile1.png", 
+                                                  "img/bomb/explosion2_tile1.png"]);
         this.tile = document.createElement("img");
         this.setGroundIcon1(this.tile);
         this._isBomb = false;
@@ -67,6 +71,14 @@ export class CustomTile {
     }
     setNumberIcon2(tile, nearBomb) {
         this._setIcon(tile, this.IMG_NUMBERS_SRC_2[nearBomb]);
+    }
+    explosion(tile, next) {
+        let cnt = 0;
+        const rep = setInterval(() => {
+            if(cnt === this.IMG_EXPLOSION_SRC.length-1) clearInterval(rep);
+            this._setIcon(tile, this.IMG_EXPLOSION_SRC[cnt]);
+            cnt ++;
+        }, 250);
     }
 
     setBomb() {
