@@ -18,14 +18,14 @@ const css = Object.freeze({
     "start":
     `
         position: absolute;
-        font-size: 20px;
+        font-size: 30px;
         bottom: 70px;
-        left: 36%;
+        left: 29%;
     `,
     "selection":
     `
         position: absolute;
-        font-size: 25px;
+        font-size: 30px;
         bottom: 35px;
         left: 35%;
     `

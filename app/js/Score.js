@@ -33,13 +33,25 @@ const css = Object.freeze({
     `
         margin: 5px 0;
     `,
-    "button":
+    "button-retry":
     `   
+        color: whitesmoke;
         display: inline-block;
         border: 5px ridge #333;
         font-size: 30px;
         padding: 7px 3px;
         margin: 0 10px;
+        background-color: #75A9FF;
+    `,
+    "button-title":
+    `   
+        color: whitesmoke;
+        display: inline-block;
+        border: 5px ridge #333;
+        font-size: 30px;
+        padding: 7px 3px;
+        margin: 0 10px;
+        background-color: #DC143C;
     `,
     "option":
     `
@@ -108,13 +120,21 @@ export class Score extends Panel {
 
         const option = document.createElement("div");
         const conti = document.createElement("span");
-        conti.style.cssText = css["button"];
         const exit = document.createElement("span");
-        exit.style.cssText = css["button"];
-        conti.textContent = "もういちど";
-        conti.addEventListener("click", () => {this.handleContinue()});
+        conti.style.cssText = css["button-retry"];
+        exit.style.cssText = css["button-title"];
+
         exit.textContent = "　やめる　";
+        conti.textContent = "もういちど";
+
+        conti.addEventListener("click", () => {this.handleContinue()});
+        conti.addEventListener("mouseover", () => {conti.style.backgroundColor = "#5d8ad1"})
+        conti.addEventListener("mouseleave", () => {conti.style.backgroundColor = "#75A9FF"})
+
         exit.addEventListener("click", () => {this.handleExit()});
+        exit.addEventListener("mouseover", () => {exit.style.backgroundColor = "#B22222"})
+        exit.addEventListener("mouseleave", () => {exit.style.backgroundColor = "#DC143C"})
+
         option.appendChild(conti);
         option.appendChild(exit);
         option.style.cssText = css["option"];

@@ -7,30 +7,50 @@ body {
     font-family: "misaki_gothic_2nd";
     margin: 0;
     padding: 0;
+    background-color: #FFF5EE;
 }
-h1 {
-    text-align: center;
+.header {
+    position: relative;
+    width: 100vw;
+    height: 300px;
 }
-hr {
+#main-title {
+    position: absolute;
+    font-size: 80px;
     margin: 0;
+    text-align: center;
+    width: 100%;
+    top: 35%;
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: blue;
+    color: #FFFF77;
+}
+#sky {
+    position: absolute;
+    width: 100%;
+    height: 100%;
 }
 
 .main-panel {
     margin: 0 auto;
     padding: 0;
-    border: 5px ridge #333;
-    width: 400px;
+    /* border: 5px ridge #333; */
+    width: 406px;
     user-select: none;
     -moz-user-select: none; /* Firefox */
     -ms-user-select: none; /* IE, Edge */
-    background-color: aqua;
 }
-
+.game {
+    padding: 40px 0;
+}
 .title {
+    border: 5px ridge #333;
     text-align: center;
     width: 100%;
     margin: 0 0;
     padding: 0;
+    color: #75A9FF;
+    background-color: #FFFF77;
 }
 .bomb-icon {
     position: relative;
@@ -44,31 +64,33 @@ hr {
     top: 2px;
 }
 
-
 .panel {
     width: 100%;
+    border: 5px ridge #333;
+    background-color: #FFFF77;
 }
-
 .status {
+    border: 5px ridge #333;
     position: relative;
     font-size: 20px;
     height: 35px;
+    width: 406px;
+    margin: 0;
+    color: #75A9FF;
+    background-color: #FFFF77;
 }
-
 .flag {
     position: absolute;
     font-size: 25px;
     bottom: 0px;
     left: 70px;
 }
-
 #flag-icon {
     top: 5px;
     width: 6%;
     margin: 0 10px;
     padding: 0;
 }
-
 .timer {
     position: absolute;
     font-size: 30px;
@@ -79,4 +101,35 @@ hr {
     position: absolute;
     font-size: 25px;
     top: 4px;
+}
+#divide {
+    border: 1px solid #e8c9b4;
+}
+
+.rule {
+    width: 100vw;
+    font-size: 20px;
+    white-space: pre-wrap;
+}
+#intro {
+    width: 100vw;
+    text-align: center;
+    display: inline-block;
+    margin: 0;
+    font-size: 30px;
+}
+#border {
+    margin: 0 35%;
+    padding: 0;
+    font-size: 5px;
+    border: 1px solid #FFFF77;
+}
+#description {
+    border: 5px ridge #333;
+    margin: 0;
+    padding: 10px;
+    width: 500px;
+    margin: 0 auto;
+    line-height: 25px;
+    background-color: #d2cfcf;
 }

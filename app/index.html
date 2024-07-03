@@ -7,19 +7,27 @@
     <title>マインスイーパーゲーム!!</title>
     <link rel="stylesheet" href="style/style.css">
     <script type="module" src="js/MinesweeperGame.js"></script>
-
 </head>
 <body>
-    <h1>Title</h1>
-    <br>
-    <div class="main-panel">
-        <div class="title"><img src="img/bomb/bomb.png" alt="bomb" class="bomb-icon"><span id="title-text">title</span><img src="img/bomb/bomb.png" alt="bomb" class="bomb-icon"><hr></div>
-        <div class="panel"></div>
-        <hr>
-        <div class="status">
-            <span class="flag"><img src="img/flag/flag.png" alt="旗" id="flag-icon"><span id="flag-counter">0/0</span></span>
-            <span class="timer"><span id="mm">00</span>:<span id="ss">00</span>:<span id="ms">00</span></span>
+    <div class="header">
+        <img src="img/background/Sky/Sky.png" alt="空" id="sky">
+        <h1 id="main-title">title</h1>
+    </div>
+    <div class="game">
+        <div class="main-panel">
+            <div class="title"><img src="img/bomb/bomb.png" alt="bomb" class="bomb-icon"><span id="title-text">title</span><img src="img/bomb/bomb.png" alt="bomb" class="bomb-icon"></div>
+            <div class="panel"></div>
+            <div class="status">
+                <span class="flag"><img src="img/flag/flag.png" alt="旗" id="flag-icon"><span id="flag-counter">0/0</span></span>
+                <span class="timer"><span id="mm">00</span>:<span id="ss">00</span>:<span id="ms">00</span></span>
+            </div>
         </div>
+    </div>
+    <hr id="divide">
+    <div class="rule">
+        <span id="intro">ルールは簡単!</span>
+        <hr id="border">
+        <div id="description"></div>
     </div>
 </body>
 </html>

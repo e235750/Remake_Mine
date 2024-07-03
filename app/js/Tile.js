@@ -30,7 +30,7 @@ const css = Object.freeze({
         position: absolute;
         border: 5px ridge #333;
         padding: 7px 5px;
-        background-color: aqua;
+        background-color: #75A9FF;
         left: 30%;
         font-size: 20px;
         bottom: 10%;
@@ -73,7 +73,7 @@ export class Tile extends Panel {
             y = Math.floor(Math.random()*(this.FIELD_HEIGHT-1));
             x = Math.floor(Math.random()*(this.FIELD_WIDTH-1));
             if(!tiles[y][x].isBomb()) {
-                console.log(y, x);
+            
                 tiles[y][x].setBomb();
                 now ++;
             }
@@ -165,37 +165,10 @@ export class Tile extends Panel {
                     this.status.timerStop();
                     this.gameExit(true);
                 }
-                console.log(this.open);
+            
                 tile.setNumberIcon1(tile.tile, tile.getNearBomb())
             }
         }
-    }
-    gameExit(result) {
-        const message = document.createElement("div");
-        message.style.cssText = css["message"];
-
-        const description = document.createElement("div");
-        description.textContent = msg;
-        description.style.cssText = css["description"];
-
-        const next = document.createElement("div");
-        next.textContent = "すすむ";
-        next.style.cssText = css["next"];
-        next.addEventListener("click", () => {this.handleGameResult(result)});
-
-        message.appendChild(description);
-        message.appendChild(next);
-        this.panel.appendChild(message);
-    }
-    handleGameResult(result) {
-        const args = [];
-        args.push(result);
-        args.push(this.diff);
-        args.push(this.param);
-        args.push(this.status.getNowTime());
-        this.status.timerReset();
-        this.status.flagReset();
-        this.game.showScorePanel(args);
     }
     handleRightClick(tile) {
         if(!tile.isOpened()) {
@@ -214,6 +187,35 @@ export class Tile extends Panel {
             this.status.setFlagCount(this.flagCount);
         }
     }
+    gameExit(result) {
+        const message = document.createElement("div");
+        message.style.cssText = css["message"];
+
+        const description = document.createElement("div");
+        description.textContent = msg;
+        description.style.cssText = css["description"];
+
+        const next = document.createElement("div");
+        next.textContent = "すすむ";
+        next.style.cssText = css["next"];
+        next.addEventListener("click", () => {this.handleGameResult(result)});
+        next.addEventListener("mouseover", () => {next.style.backgroundColor = "#5277b4"});
+        next.addEventListener("mouseleave", () => {next.style.backgroundColor = "#75A9FF"});
+        message.appendChild(description);
+        message.appendChild(next);
+        this.panel.appendChild(message);
+    }
+    handleGameResult(result) {
+        const args = [];
+        args.push(result);
+        args.push(this.diff);
+        args.push(this.param);
+        args.push(this.status.getNowTime());
+        this.status.timerReset();
+        this.status.flagReset();
+        this.game.showScorePanel(args);
+    }
+    
     handleMouseOver(tile) {
         if(!this.flag){
             if(!tile.isOpened()) {
