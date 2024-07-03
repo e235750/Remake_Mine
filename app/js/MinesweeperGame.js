@@ -3,6 +3,7 @@ import { Title } from "./Title.js";
 import { Score } from "./Score.js";
 import { config } from "./Config.js";
 export class MinesweeperGame {
+    //パネル管理、切り替えようクラス
     constructor() {
         this.showTitlePanel(this);
         this.showRule();

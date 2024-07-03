@@ -1,4 +1,5 @@
 export class CustomTile {
+    //タイル情報管理（画像、属性）
     constructor(panelWidth, fieldWidth) {
         this.setImageSize(panelWidth, fieldWidth);
         this.IMG_BOMB_SRC_1 = "img/bomb/bomb_tile1.png";
@@ -37,6 +38,7 @@ export class CustomTile {
         this.nearBomb = 0;
     }
 
+    //タイルの画像変更
     setImageSize(panelWidth, fieldWidth) {
         const imgWidth = panelWidth/fieldWidth;
         this.IMG_WIDTH = imgWidth;
@@ -72,6 +74,7 @@ export class CustomTile {
     setNumberIcon2(tile, nearBomb) {
         this._setIcon(tile, this.IMG_NUMBERS_SRC_2[nearBomb]);
     }
+    //1秒かけて4枚の画像を表示
     explosion(tile, next) {
         let cnt = 0;
         const rep = setInterval(() => {

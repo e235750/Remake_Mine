@@ -32,6 +32,8 @@ const css = Object.freeze({
 }); 
 
 export class Title extends Panel {
+    //ゲームタイトル
+    //難易度選択など
     constructor(game) {
         super();
         this.game = game;

@@ -1,4 +1,6 @@
 export class Panel {
+    //パネルの親クラス
+    //Title, Tile, Scoreクラスのスーパークラス
     constructor() {
         this.panel = document.querySelector(".panel");
         this.PANEL_WIDTH = this.panel.getBoundingClientRect().width;
@@ -12,5 +14,4 @@ export class Panel {
     append(child) {
         this.panel.appendChild(child);
     }
-    createPanel(){}
 }

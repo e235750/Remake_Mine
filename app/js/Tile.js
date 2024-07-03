@@ -39,6 +39,8 @@ const css = Object.freeze({
 })
 
 export class Tile extends Panel {
+    //メインゲーム画面
+    //タイルへのクリックリスナー、成功・失敗時の処理を実装
     constructor(game, diff) {
         super();
         this.game = game;

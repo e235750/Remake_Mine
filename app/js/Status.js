@@ -1,4 +1,5 @@
 export class Status {
+    //立っている旗の数、経過時間を管理する。
     constructor(panel) {
         this.footer = document.querySelector(".status");
         this.flagCounter = this.footer.querySelector("#flag-counter");
