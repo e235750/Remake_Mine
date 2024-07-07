@@ -14,7 +14,7 @@ JavaScript練習のため、ライブラリなどを一切使わずに生のJava
 
 ### サービス面
 * JSを使用し、HTML・CSSの動的に変更。ページ遷移のロードがない。
-* cookieを利用し、セッションを維持。リロードしても初期化されない。
+* sessionStorageを利用し、セッションを維持。リロードしても初期化されない。
 
 ## 課題、実現したいこと
 * 冗長なコード記述(JS内のCSS適用、HTMLオブジェクトの作成)
@@ -29,7 +29,7 @@ JavaScript練習のため、ライブラリなどを一切使わずに生のJava
 * [イベントリスナー](https://www.sejuku.net/blog/57625#index_id4)
 * [リロード検知](https://masanyon.com/javascript-reload-event-beforeunload-unload/)
 * [テキストファイル読み込み](https://www.pazru.net/html5/File/020.html)
-* [クッキー関連](https://b-risk.jp/blog/2021/07/sessionstorage/)
+* [セッション維持](https://b-risk.jp/blog/2021/07/sessionstorage/)
 
 ### 素材
 * [ドットイラスト](https://dot-illust.net/)
@@ -42,5 +42,7 @@ JavaScript練習のため、ライブラリなどを一切使わずに生のJava
 JSのコーディングでリファクタリングをめんどくさがったためかなり冗長なコードになっている。見やすいコードを書けるようになるためにさらに学習が必要だと感じる。（デザインパターンを勉強してみる）
 
 HTML・CSS・JSの理解が浅いと感じる時が開発時に何回もあったため、今後も学習を続けていきたい。
+
+セッション維持を実装するとき、最初はCookieを利用していたが、保存できるデータ量が少ないため、バグが発生した。そのそのため、sessionStorageの使用に切り替えたが、この機会にセッション維持の方法について学習したい。
 
 現在はローカル環境のみでの開発を行なっているから、webサーバー構築の練習も含めて、グローバル環境での開発も行いたい。
