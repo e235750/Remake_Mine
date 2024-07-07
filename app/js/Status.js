@@ -1,6 +1,7 @@
 export class Status {
     //立っている旗の数、経過時間を管理する。
     constructor(panel) {
+        this.tile = panel;
         this.footer = document.querySelector(".status");
         this.flagCounter = this.footer.querySelector("#flag-counter");
         this.timer = this.footer.querySelector(".timer")
@@ -9,7 +10,7 @@ export class Status {
         this.second = this.timer.querySelector("#ss");
         this.millisecond = this.timer.querySelector("#ms");
         this.stop = false;
-        this.NUM_FLAG = panel.getDefaultBomb();
+        this.NUM_FLAG = this.tile.getDefaultBomb();
         this.setFlagCount(0);
     }
     
@@ -35,10 +36,10 @@ export class Status {
         this.millisecond.textContent = ms;
     }
 
-    timerStart() {
+    timerStart(time = 0) {
         this.stop = false;
-        this.timerReset();
-        const startTime = Date.now();
+        //すでに経過している時間(msになっている)
+        const startTime = Date.now() - time;
         const rep = setInterval(() => {
             if(this.stop) {
                 clearInterval(rep)

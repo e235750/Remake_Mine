@@ -14,4 +14,5 @@ export class Panel {
     append(child) {
         this.panel.appendChild(child);
     }
+    createPanel() {}
 }

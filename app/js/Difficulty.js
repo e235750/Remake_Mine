@@ -1,5 +1,20 @@
 export const difficulty = Object.freeze({
-    "BEGINNER": ["初 級", [5, 5, 5]],
-    "INTERMEDIATE": ["中 級", [9, 9, 9]],
-    "ADVANCED": ["上 級", [10, 10, 15]],
+    "BEGINNER"      : {
+        "name":"初 級",
+        "height": 5,
+        "width" : 5,
+        "bomb"  : 5,
+    },
+    "INTERMEDIATE"      : {
+        "name":"中 級",
+        "height": 9,
+        "width" : 9,
+        "bomb"  : 9,
+    },
+    "ADVANCED"      : {
+        "name":"上 級",
+        "height": 10,
+        "width" : 10,
+        "bomb"  : 15,
+    },
 });

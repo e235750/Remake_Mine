@@ -95,9 +95,9 @@ export class Title extends Panel {
     createDifficulty() {
         const selection = document.createElement("div");
         for(const item in difficulty) {
-            const diff = this.createSelection(difficulty[item][0])
+            const diff = this.createSelection(difficulty[item]["name"])
             diff.addEventListener("click", () => {
-                this.game.showGamePanel(item);
+                this.game.showGamePanel(item, undefined);
             });
             diff.style.margin = "3px 0"
             selection.appendChild(diff);

@@ -41,19 +41,52 @@ const css = Object.freeze({
 export class Tile extends Panel {
     //メインゲーム画面
     //タイルへのクリックリスナー、成功・失敗時の処理を実装
-    constructor(game, diff) {
+    constructor(game, diff, cookie) {
         super();
+        this.cookie = cookie;
         this.game = game;
-        this.param = difficulty[diff][1];
         this.diff = diff;
-        this.FIELD_HEIGHT = this.param[0];
-        this.FIELD_WIDTH = this.param[1];
-        this.NUM_BOMB = this.param[2];
+        this.param = difficulty[this.diff];
+        this.FIELD_HEIGHT = this.param["height"];
+        this.FIELD_WIDTH = this.param["width"];
+        this.NUM_BOMB = this.param["bomb"];
         this.flagCount = 0;
         this.tiles = [];
         this.open = 0;
         this.status = new Status(this);
         this.flag = false;
+        this.resume = this.cookie === undefined ? false : true;
+    }
+
+    getCookies() {
+        document.cookie = "";
+        const cookies = {
+            "diff": this.diff,
+            "tiles": {},
+            "flagCount": 0,
+            "time": "00:00:00",
+        };
+        for(let i = 0; i < this.FIELD_HEIGHT; i ++) {
+            for(let j = 0; j < this.FIELD_WIDTH; j ++) {
+                cookies["tiles"][`${(this.FIELD_HEIGHT*i + j)}`] = this.createCookie(this.tiles[i][j]);
+            }
+        }
+        cookies["flagCount"] = this.flagCount;
+        cookies["time"] = this.status.getNowTime();
+        return cookies;
+    }
+    createCookie(bomb) {
+        let cookieString = {
+            isBomb: bomb.isBomb(),
+            isFlag: bomb.isFlag(),
+            isOpened: bomb.isOpened(),
+            nearBomb: bomb.getNearBomb(),
+        };
+        return cookieString;
+    }
+
+    getTiles() {
+        return this.tiles;
     }
 
     getDefaultBomb() {
@@ -75,7 +108,6 @@ export class Tile extends Panel {
             y = Math.floor(Math.random()*(this.FIELD_HEIGHT-1));
             x = Math.floor(Math.random()*(this.FIELD_WIDTH-1));
             if(!tiles[y][x].isBomb()) {
-            
                 tiles[y][x].setBomb();
                 now ++;
             }
@@ -102,13 +134,53 @@ export class Tile extends Panel {
                 row.push(tile);
             }
             this.tiles.push(row);
+        }
+        if(!this.resume) {
+            this.placeBombs(this.tiles);
+            this.bombCountNearby(this.tiles);
             this.status.timerStart();
         }
-        this.placeBombs(this.tiles);
-        this.bombCountNearby(this.tiles);
+        this.resumeTile();
         this.setGridLayout(this.panel)
     }
-
+    resumeTile() {
+        if(!this.resume) return;
+        const args = this.cookie["args"];
+        this.flagCount = parseInt(args["flagCount"]);
+        this.status.setFlagCount(this.flagCount);
+        let time = args["time"];
+        time = time.split(":").map(x => parseInt(x));
+        //すでに経過している時間
+        const passed = time[0]*60*1000 + time[1]*1000 + time[2];
+        //すでに爆弾タイルを開けているか
+        let failed = false;
+        for(let i = 0; i < this.FIELD_HEIGHT; i ++) {
+            for(let j = 0; j < this.FIELD_WIDTH; j ++) {
+                const tile = this.tiles[i][j];
+                if(args["tiles"][this.FIELD_HEIGHT*i+j]["isBomb"]) tile.setBomb();
+                if(args["tiles"][this.FIELD_HEIGHT*i+j]["isFlag"]) tile.toggleFlag();
+                tile.setNearBombCount(parseInt(args["tiles"][this.FIELD_HEIGHT*i+j]["nearBomb"]));
+                if(args["tiles"][this.FIELD_HEIGHT*i+j]["isOpened"]) {
+                    tile.open();
+                    if(tile.setNumberIcon1(tile.tile, tile.getNearBomb()));
+                    if(tile.isBomb()) {
+                        failed = true;
+                    }
+                }
+                else {
+                    if(tile.isFlag()) tile.setFlagIcon1(tile.tile);
+                }
+                this.tiles[i][j] = tile
+            }
+        }
+        this.status.timerStart(passed);
+        if(failed) {
+            this.flag = true;
+            this.status.timerStop();
+            this.showAllBomb(this.tiles);
+            this.gameExit();
+        }
+    }
     bombCountNearby(tiles) {
         for(let y = 0; y < this.FIELD_HEIGHT; y ++) {
             for(let x = 0; x < this.FIELD_WIDTH; x ++) {
@@ -169,6 +241,7 @@ export class Tile extends Panel {
                 }
             
                 tile.setNumberIcon1(tile.tile, tile.getNearBomb())
+            
             }
         }
     }
@@ -207,12 +280,14 @@ export class Tile extends Panel {
         message.appendChild(next);
         this.panel.appendChild(message);
     }
+    
     handleGameResult(result) {
-        const args = [];
-        args.push(result);
-        args.push(this.diff);
-        args.push(this.param);
-        args.push(this.status.getNowTime());
+        const args = {
+            "result": result,
+            "diff": this.diff,
+            "param": {"diff": this.diff, "height": this.FIELD_HEIGHT, "width": this.FIELD_WIDTH, "bomb": this.NUM_BOMB},
+            "time": this.status.getNowTime(),
+        };
         this.status.timerReset();
         this.status.flagReset();
         this.game.showScorePanel(args);
@@ -225,8 +300,7 @@ export class Tile extends Panel {
                 else tile.setFlagIcon2(tile.tile);
             }
             else {
-                if(tile.isBomb()) tile.setBombIcon2(tile.tile);
-                else tile.setNumberIcon2(tile.tile, tile.getNearBomb());
+                tile.setNumberIcon2(tile.tile, tile.getNearBomb());
             }
         }
     }
@@ -237,8 +311,7 @@ export class Tile extends Panel {
                 else tile.setFlagIcon1(tile.tile);
             }
             else {
-                if(tile.isBomb()) tile.setBombIcon1(tile.tile);
-                else tile.setNumberIcon1(tile.tile, tile.getNearBomb());
+                tile.setNumberIcon1(tile.tile, tile.getNearBomb());
             }
         }
     }

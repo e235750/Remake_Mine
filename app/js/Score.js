@@ -62,6 +62,7 @@ const css = Object.freeze({
 }); 
 
 export class Score extends Panel {
+    //スコア表示、Tileクラスからの情報を表示する。
     constructor(game, score) {
         super();
         this.game = game;
@@ -72,7 +73,7 @@ export class Score extends Panel {
         super.resetPanelLayout(this.panel);
         this.panel.style.cssText = css["panel"];
         this.panel.ondragstart = () => {return false};
-        this.gameResult(this.score[0]);
+        this.gameResult(this.score["result"]);
     }
 
     gameResult(result) {
@@ -111,9 +112,9 @@ export class Score extends Panel {
         labelBomb = labelBomb.padStart(length, ' ');
         labelTime = labelTime.padStart(length, ' ');
 
-        fieldSize.textContent   = `${labelSize} ${this.score[2][0]} x ${this.score[2][1]}`;
-        numBomb.textContent     = `${labelBomb}   ${this.score[2][2]}`;
-        time.textContent        = `${labelTime}${this.score[3]}`;
+        fieldSize.textContent   = `${labelSize} ${this.score["param"]["height"]} x ${this.score["param"]["width"]}`;
+        numBomb.textContent     = `${labelBomb}   ${this.score["param"]["bomb"]}`;
+        time.textContent        = `${labelTime}${this.score["time"]}`;
         info.appendChild(fieldSize);
         info.appendChild(numBomb);
         info.appendChild(time);
@@ -142,7 +143,7 @@ export class Score extends Panel {
     }
 
     handleContinue() {
-        this.game.showGamePanel(this.score[1])
+        this.game.showGamePanel(this.score["diff"])
     }
     handleExit() {
         this.game.showTitlePanel();
