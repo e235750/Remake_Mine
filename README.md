@@ -25,6 +25,10 @@ JavaScript練習のため、ライブラリなどを一切使わずに生のJava
 ## 参考と素材
 ### 参考
 * [Prog2-Report6](https://github.com/e235750/Report6 "Prog2-Report6へのリンク")
+* [イベントリスナー](https://www.sejuku.net/blog/57625#index_id4)
+* [リロード検知](https://masanyon.com/javascript-reload-event-beforeunload-unload/)
+* [テキストファイル読み込み](https://www.pazru.net/html5/File/020.html)
+* [クッキー関連](https://b-risk.jp/blog/2021/07/sessionstorage/)
 
 ### 素材
 * [ドットイラスト](https://dot-illust.net/)
